@@ -47,12 +47,12 @@ if (isset($_POST["decision"])) {
 
 //⑦名前が入力されているか判定する。入力されていた場合はif文の中に入る
 if (@($_POST["name"]) & @($_POST["pass"])) {
-	//⑧名前に「yse」、パスワードに「2019」と設定されているか確認する。設定されていた場合はif文の中に入る
-	if (($name=="yse") &($pass=="2019")){
+	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
+	if (($name=="yse") &($pass=="2021")){
 
 		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
 		$_SESSION['login'] = True;
-		$_SESSION['NAME'] ="Duc Anh";
+		$_SESSION['NAME'] ="DAU";
 		// session_regenerate_id(true);
 		header("Location: zaiko_ichiran.php");//⑩在庫一覧画面へ遷移する
 		exit();
