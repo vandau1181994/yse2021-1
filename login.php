@@ -1,4 +1,3 @@
-<!-- gopal file -->
 <?php
 /* 
 【機能】
@@ -12,66 +11,65 @@
 	ログインしてください：ログインしていない状態で他のページに遷移した場合(ログイン画面に遷移し上記を表示)
 */
 //⑥セッションを開始する
-session_start();
+	session_start();
+echo @$_SESSION['NAME'];
+
 //①名前とパスワードを入れる変数を初期化する
-$name = "";
-$password = "";
+	$errormess="";
+	// $_SESSION['login'] =False;
+	$_SESSION['NAME']=Null;
+
 
 /*
  * ②ログインボタンが押されたかを判定する。
  * 押されていた場合はif文の中の処理を行う
  */
-if (isset($_POST["decision"]) && $_POST["decision"] == 1) {
+if (isset($_POST["decision"])) {
 	/*
 	 * ③名前とパスワードが両方とも入力されているかを判定する。
 	 * 入力されていた場合はif文の中の処理を行う。
 	 */
-	if(!empty($_POST['name']) && !empty($_POST['pass'])){
-	 $name = $_POST['name'];
-	 $password = $_POST['pass'];
-	
-	
-}else{
-	$error_message = '名前が未入力です。';
-}}
-
-	
-	// if (/* ③の処理を書く */) {
-	// 	//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する
-	// } else {
-	// 	//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
-	// }
+	if (@($_POST["name"]) and @($_POST["pass"]) ) {
+		//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する
+		$name = $_POST["name"];
+		$pass = $_POST["pass"];
+	} else {
+		//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
+	if(!@($_POST["name"])){
+	$errormess =$errormess."ユーザ名未入力です。<br>";
+	}
+	if(!@($_POST["pass"])){
+	$errormess=$errormess."パスワード未入力です<br>";
+	}
+	}
+}
 
 
 //⑦名前が入力されているか判定する。入力されていた場合はif文の中に入る
- if (isset($name)) {
- $userAdmin = "yse";
- $passwordAdmin = "2021";
-	if($name == $userAdmin && $password == $passwordAdmin){
-		$_SESSION["user"] = $name;
-		$_SESSION["login"] = true;
-		
-		header("Location: zaiko_ichiran.php");
-	}
-	else{
-		$error_message = "ユーザー名かパスワードがまちがっています。";
+if (@($_POST["name"]) & @($_POST["pass"])) {
+	//⑧名前に「yse」、パスワードに「2019」と設定されているか確認する。設定されていた場合はif文の中に入る
+	if (($name=="yse") &($pass=="2019")){
+
+		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
+		$_SESSION['login'] = True;
+		$_SESSION['NAME'] ="Duc Anh";
+		// session_regenerate_id(true);
+		header("Location: zaiko_ichiran.php");//⑩在庫一覧画面へ遷移する
+		exit();
+	}else{
+		$errormess=$errormess."ユーザー名かパスワードが間違っています";
+		//⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
 	}
 }
-// 	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
- //	if (/* ⑧の処理を書く */){
-// 		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
-// 		//⑩在庫一覧画面へ遷移する
-// 		header(/* ⑩の遷移先を書く */);
-// 	}else{
-// 		//⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
-// 	}
-// }
 
-// //⑫SESSIONの「error2」に値が入っているか判定する。入っていた場合はif文の中に入る
-// if (/* ⑫の処理を書く */) {
-// 	//⑬SESSIONの「error2」の値をエラーメッセージを入れる変数に設定する。
-// 	//⑭SESSIONの「error2」にnullを入れる。
-// }
+//⑫SESSIONの「error2」に値が入っているか判定する。入っていた場合はif文の中に入る
+if (!empty($_SESSION['error2'])) {
+	$errormess= $errormess.$_SESSION['error2'];
+	//⑬SESSIONの「error2」の値をエラーメッセージを入れる変数に設定する。
+	//⑭SESSIONの「error2」にnullを入れる。
+	$_SESSION['error2']= null;
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -81,14 +79,15 @@ if (isset($_POST["decision"]) && $_POST["decision"] == 1) {
 <link rel="stylesheet" href="css/login.css" type="text/css" />
 </head>
 <body id="login">
+
 	<div id="main">
 		<h1>ログイン</h1>
-		<?php 
-		//⑮エラーメッセージの変数に入っている値を表示する 
-		//echo "<div id='error'>", /* ⑮の変数を書く */, "</div>";
-		
-		//⑯メッセージの変数に入っている値を表示する 
-		//echo "<div id='msg'>", /* ⑯の変数を書く */, "</div>"; 
+		<?php
+		//⑮エラーメッセージの変数に入っている値を表示する
+		echo "<div id='error'>".$errormess."</div>";
+		// echo $errormess ;
+		//⑯メッセージの変数に入っている値を表示する
+		// echo "<div id='msg'>".$errormess. "</div>";
 		?>
 		<form action="login.php" method="post" id="log">
 			<p>
