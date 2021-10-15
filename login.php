@@ -87,7 +87,7 @@ if (!empty($_SESSION['error2'])) {
 		echo "<div id='error'>".$errormess."</div>";
 		// echo $errormess ;
 		//⑯メッセージの変数に入っている値を表示する
-		// echo "<div id='msg'>".$errormess. "</div>";.
+		// echo "<div id='msg'>".$errormess. "</div>";
 		?>
 		<form action="login.php" method="post" id="log">
 			<p>
