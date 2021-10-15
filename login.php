@@ -83,7 +83,7 @@ if (!empty($_SESSION['error2'])) {
 	<div id="main">
 		<h1>ログイン</h1>
 		<?php
-		//⑮エラーメッセージの変数に入っている値を表示する
+		//⑮エラーメッセージの変数に入っている値を表示する.
 		echo "<div id='error'>".$errormess."</div>";
 		// echo $errormess ;
 		//⑯メッセージの変数に入っている値を表示する
